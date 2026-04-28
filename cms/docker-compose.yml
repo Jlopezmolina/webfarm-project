@@ -1,0 +1,72 @@
+services:
+  
+  # contenedor base de datos para el WordPress
+  # Se utiliza MySQL 5.7 como base de datos
+  # Se conecta con el WordPress a través de la red_servicios
+  db:
+    image: mysql:5.7
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wp_user
+      MYSQL_PASSWORD: wp_pass
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      red_servicios:
+        ipv4_address: 192.168.20.10
+  # Primeramente debe accederse directamente y 
+  # una vez configurado el Idioma, usuario,contraseña, etc 
+  # ya se podra acceder a través del balanceador.
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress
+    depends_on:
+      - db
+    environment:
+      WORDPRESS_DB_HOST: 192.168.20.10:3306
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: wp_pass
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wp_data:/var/www/html
+    ports:
+      - "8080:80"
+    networks:
+      red_servicios:
+        ipv4_address: 192.168.20.11
+      red_web:
+        ipv4_address: 192.168.10.11
+
+  # balanceador de carga que redirige las peticiones al contenedor
+  # de WordPress.
+  balanceador-nginx-wordpress:
+    image: jorgelpz-nginx-image:p4
+    container_name: balanceador-nginx-wordpress
+    ports:
+      - "8999:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./certs:/etc/nginx/ssl
+    cap_add:
+      - NET_ADMIN
+    depends_on:
+      - wordpress
+      - db
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.50
+      red_servicios:
+        ipv4_address: 192.168.20.50
+
+volumes:
+  db_data:
+  wp_data:
+
+networks:
+  red_servicios:
+    external: true
+  red_web:
+    external: true

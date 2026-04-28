@@ -1,0 +1,30 @@
+# Technical debt from the iterative academic build (P1..P4).
+# Will be removed once MVP-0 has a self-contained, flattened image.
+dependences/
+
+# Entorno y credenciales
+.env
+*.key
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Docker
+.docker/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Archivos de entrega / temporales
+*.zip
+*.tar.gz

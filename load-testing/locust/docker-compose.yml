@@ -1,0 +1,34 @@
+# Se define un contenedor master al que accederemos encargado de coordinar a los contenedores worker.
+# Los workers se encargan de ejecutar las pruebas de carga y se comunican con el master.
+# Mapeamos un puerto para el master ya que este debe ser accesible desde el navegador
+# para accionar las pruebas desde él.
+services:   
+  master-jorgelpz: 
+    image: locustio/locust 
+    ports: 
+     - "8089:8089" 
+    volumes: 
+      - ./:/mnt/locust 
+    command: -f /mnt/locust/locustfile.py --master -H https://192.168.10.50:443/ 
+    networks: 
+      red_web: 
+        ipv4_address: 192.168.10.70  
+ 
+  worker-jorgelpz: 
+    image: locustio/locust 
+    volumes: 
+      - ./:/mnt/locust 
+    command: -f /mnt/locust/locustfile.py --worker --master-host master-jorgelpz 
+    depends_on: 
+      - master-jorgelpz 
+    deploy: 
+      replicas: 6 
+    networks: 
+      - red_web 
+ 
+  
+networks: 
+  red_web: 
+    external: true
+
+    

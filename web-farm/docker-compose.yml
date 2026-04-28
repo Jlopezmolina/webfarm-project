@@ -1,0 +1,159 @@
+services: 
+    web1:
+        image: jorgelpz-apache-image:p4
+        container_name: web1
+        ports:
+        - "8081:80"
+        - "8441:443"
+        volumes:
+        - ./apache/web-content:/var/www/html
+        cap_add:
+        - NET_ADMIN
+        networks:
+            red_web:
+                ipv4_address: 192.168.10.2 
+            red_servicios:
+                ipv4_address: 192.168.20.2 
+
+    web2:
+        image: jorgelpz-apache-image:p4
+        container_name: web2
+        ports:
+        - "8082:80"
+        - "8442:443"
+        volumes:
+        - ./apache/web-content:/var/www/html
+        cap_add:
+        - NET_ADMIN
+        networks:
+            red_web:
+                ipv4_address: 192.168.10.3 
+            red_servicios:
+                ipv4_address: 192.168.20.3 
+
+    web3:
+        image: jorgelpz-apache-image:p4
+        container_name: web3
+        ports:
+        - "8083:80"
+        - "8443:443"
+        volumes:
+        - ./apache/web-content:/var/www/html
+        cap_add:
+        - NET_ADMIN
+        networks:
+            red_web:
+                ipv4_address: 192.168.10.4 
+            red_servicios:
+                ipv4_address: 192.168.20.4 
+
+    web4:
+        image: jorgelpz-apache-image:p4
+        container_name: web4
+        ports:
+        - "8084:80"
+        - "8444:443"
+        volumes:
+        - ./apache/web-content:/var/www/html
+        cap_add:
+        - NET_ADMIN
+        networks:
+            red_web:
+                ipv4_address: 192.168.10.5 
+            red_servicios:
+                ipv4_address: 192.168.20.5 
+
+    web5:
+        image: jorgelpz-apache-image:p4
+        container_name: web5
+        ports:
+        - "8085:80"
+        - "8445:443"
+        volumes:
+        - ./apache/web-content:/var/www/html
+        cap_add:
+        - NET_ADMIN
+        networks:
+            red_web:
+                ipv4_address: 192.168.10.6 
+            red_servicios:
+                ipv4_address: 192.168.20.6 
+
+    web6:
+        image: jorgelpz-apache-image:p4
+        container_name: web6
+        ports:
+        - "8086:80"
+        - "8446:443"
+        volumes:
+        - ./apache/web-content:/var/www/html
+        cap_add:
+        - NET_ADMIN
+        networks:
+            red_web:
+                ipv4_address: 192.168.10.7 
+            red_servicios:
+                ipv4_address: 192.168.20.7 
+
+    web7:
+        image: jorgelpz-apache-image:p4
+        container_name: web7
+        ports:
+        - "8087:80"
+        - "8447:443"
+        volumes:
+        - ./apache/web-content:/var/www/html
+        cap_add:
+        - NET_ADMIN
+        networks:
+            red_web:
+                ipv4_address: 192.168.10.8 
+            red_servicios:
+                ipv4_address: 192.168.20.8 
+
+    web8:
+        image: jorgelpz-apache-image:p4
+        container_name: web8
+        ports:
+        - "8088:80"
+        - "8448:443"
+        volumes:
+        - ./apache/web-content:/var/www/html
+        cap_add:
+        - NET_ADMIN
+        networks:
+            red_web:
+                ipv4_address: 192.168.10.9 
+            red_servicios:
+                ipv4_address: 192.168.20.9 
+
+    balanceador-nginx-ssl:
+        image: jorgelpz-nginx-image:p4
+        container_name: balanceador-nginx
+        ports:
+        - "9000:443"
+        - "8999:80"
+        volumes:
+        - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+        - ./certs:/etc/nginx/ssl
+        networks:
+            red_web:
+                ipv4_address: 192.168.10.50
+        cap_add:
+        - NET_ADMIN
+        depends_on:
+            - web1
+            - web2
+            - web3
+            - web4
+            - web5
+            - web6
+            - web7
+            - web8
+
+
+networks:
+    red_web:
+        external: true
+    red_servicios:
+        external: true

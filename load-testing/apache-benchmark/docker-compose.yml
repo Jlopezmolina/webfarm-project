@@ -1,0 +1,31 @@
+# Se levantan dos contenedores con apache benchmark para realizar pruebas de carga
+# Se usa uno para las peticiones HTTPS y otro para HTTP
+# una vez terminada la ejecución de las pruebas se detienen.
+services: 
+  apache-benchmark-P5-443: 
+    build: 
+      context: . 
+      dockerfile: Dockerfile
+    image: jorgelpz-ab-image:p5 
+    container_name: apache_benchmark-P5-443 
+    command: ["ab", "-n", "10000", "-c", "100", "https://192.168.10.50:443/"]
+    networks: 
+      red_web: 
+        ipv4_address: 192.168.10.60 
+
+  apache-benchmark-P5-80: 
+    build: 
+      context: . 
+      dockerfile: Dockerfile
+    image: jorgelpz-ab-image:p5 
+    container_name: apache_benchmark-P5-80
+    command: ["ab", "-n", "10000", "-c", "100", "http://192.168.10.50:80/"]
+    networks: 
+      red_web: 
+        ipv4_address: 192.168.10.61
+ 
+networks: 
+  red_web: 
+    external: true 
+
+    
