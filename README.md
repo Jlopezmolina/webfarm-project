@@ -6,6 +6,16 @@ This project was developed as part of the SWAP (Servidores Web de Altas Prestaci
 
 > **Full CLI deployment guide (Linux, no Docker Desktop):** [DEPLOYMENT.md](DEPLOYMENT.md)
 
+> ⚠️ **Aviso sobre el estado inicial.** El primer commit de este repositorio
+> conserva tal cual el último entregable de una práctica universitaria
+> iterativa (SWAP, UGR, curso 2024/25) y **no arranca limpio**: depende de
+> imágenes Docker construidas en prácticas anteriores que no están aquí, y
+> arrastra varias incoherencias entre `Dockerfile`, `entrypoint` y
+> configuración SSL. El repositorio está siendo rescatado por MVPs hasta
+> dejarlo autocontenido, funcional y documentado. Lee
+> [INITIAL_STATE.md](INITIAL_STATE.md) para el contexto completo, el
+> diagnóstico técnico y la hoja de ruta.
+
 ---
 
 ## Architecture
