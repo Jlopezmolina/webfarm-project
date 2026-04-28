@@ -1,3 +1,7 @@
+# Claude Code — contexto de sesión local, no va al repo público
+.claude/
+CLAUDE.md
+
 # Technical debt from the iterative academic build (P1..P4).
 # Will be removed once MVP-0 has a self-contained, flattened image.
 dependences/
