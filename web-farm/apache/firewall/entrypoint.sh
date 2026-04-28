@@ -1,5 +1,4 @@
 #!/bin/bash
 
-# Script: entrypoint.sh
-./jorgelpz-iptables-web.sh
+/iptables-web.sh
 exec "$@"
